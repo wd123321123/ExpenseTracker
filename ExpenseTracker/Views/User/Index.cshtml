@@ -1,0 +1,27 @@
+﻿@model List<UserDto>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Użytkownicy</h2>
+
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr class="text-center">
+            <th>Użytkownik</th>
+            <th>Rola</th>
+            <th>Akcja</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model)
+        {
+            <tr class="text-center">
+                <td>@user.UserName</td>
+                <td>@user.Role</td>
+                <td>
+                    <a href="@Url.Action("AssignRole", "User", new { userId = user.UserId })" class="btn btn-success">Przypisz</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

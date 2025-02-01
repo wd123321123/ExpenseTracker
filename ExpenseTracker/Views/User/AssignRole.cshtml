@@ -1,0 +1,24 @@
+﻿@model UserDto
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">@Model.UserName</h2>
+
+    <form method="post" asp-action="AssignRole">
+        <div class="form-group mb-3">
+            <label for="Role" class="form-label">Wybierz rolę</label>
+            <select class="form-select" id="Role" name="Role" asp-for="@Model.Role" required>
+                <option value="">Wybierz</option>
+                <option value="Admin" >Admin</option>
+                <option value="FamilyHead" >Głowa rodziny</option>
+                <option value="FamilyMember" >Członek rodziny</option>
+            </select>
+        </div>
+
+        <input type="hidden" name="UserId" value="@Model.UserId"/>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary btn-lg">Aktualizuj</button>
+            <a href="@Url.Action("Index", "User")" class="btn btn-secondary btn-lg">Anuluj</a>
+        </div>
+    </form>
+</div>

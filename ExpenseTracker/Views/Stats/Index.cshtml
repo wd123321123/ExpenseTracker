@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = User.IsInRole("FamilyHead") ? "Statystyki rodziny" : "Twoje statystyki";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="get" asp-controller="Stats" asp-action="Index">
+    <div class="form-group">
+        <label for="yearPicker">Wybierz rok:</label>
+        <select name="year" id="yearPicker" class="form-control" onchange="this.form.submit()" asp-for="@ViewData["SelectedYear"]">
+            @foreach (var year in (List<int>)ViewData["AvailableYears"])
+            {
+                <option value="@year">@year</option>
+            }
+        </select>
+    </div>
+</form>
+
+<div class="chart-container" style="position: relative; height: 400px; width: 800px;">
+    <canvas id="expenseChart"></canvas>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('expenseChart').getContext('2d');
+        var expenseChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewData["Months"])),
+                datasets: [{
+                    label: 'Wydatki',
+                    data: @Html.Raw(Json.Serialize(ViewData["ExpenseData"])),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}
